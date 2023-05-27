@@ -1,0 +1,22 @@
+---
+
+- name: prepair node_exporter
+  import_tasks: prepair.yml
+  tags:
+    - 'node_exporter::prepair'
+
+- name: install node_exporter
+  import_tasks: install.yml
+  tags:
+    - 'node_exporter::install'
+
+- name: configure node_exporter
+  import_tasks: configure.yml
+  tags:
+    - 'node_exporter::configure'
+
+- name: cleanup node_exporter
+  import_tasks: cleanup.yml
+  tags:
+    - 'never'
+    - 'node_exporter::cleanup'

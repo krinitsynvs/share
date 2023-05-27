@@ -1,0 +1,13 @@
+---
+
+node_exporter_version: 1.6.0
+node_exporter_download_dir: /tmp
+node_exporter_bin_dir: /usr/bin
+node_exporter_user: node_exporter
+node_exporter_group: node_exporter
+node_exporter_service_dir: /etc/systemd/system
+node_exporter_config_dir: /home/node_exporter/conf
+node_exporter_data_dir: /home/node_exporter/data
+node_exporter_log_dir: /home/node_exporter/logs
+node_exporter_log_level: info
+node_exporter_port: 9100

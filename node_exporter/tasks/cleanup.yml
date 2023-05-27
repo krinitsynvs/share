@@ -1,0 +1,36 @@
+---
+
+- name: ensure if systemd service file exists
+  stat:
+    path: "{{ node_exporter_service_dir }}/node_exporter.service"
+  register: node_exporter_service
+
+- name: stop and disable node_exporter
+  systemd:
+    name: node_exporter.service
+    state: stopped
+    daemon_reload: yes
+    enabled: no
+  when: node_exporter_service.stat.exists
+
+- name: cleanup directory
+  file:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ node_exporter_config_dir }}"
+    - "{{ node_exporter_data_dir }}"
+    - "{{ node_exporter_log_dir }}"
+    - "{{ node_exporter_bin_dir }}/node_exporter"
+    - "{{ node_exporter_service_dir }}/node_exporter.service"
+    - "/home/{{ node_exporter_user }}"
+
+- name: delete node_exporter user
+  user:
+    name: "{{ node_exporter_user }}"
+    state: absent
+
+- name: delete node_exporter group
+  group:
+    name: "{{ node_exporter_group }}"
+    state: absent

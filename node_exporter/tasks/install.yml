@@ -1,0 +1,15 @@
+---
+
+- name: unzip node_exporter
+  unarchive:
+    remote_src: true
+    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "{{ node_exporter_download_dir }}"
+
+- name: mv node_exporter to bin path
+  copy:
+    remote_src: true
+    src: "{{ node_exporter_download_dir }}/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+    dest: "{{ node_exporter_bin_dir }}/node_exporter"
+    mode: 0755
+  notify: restart node_exporter

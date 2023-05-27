@@ -1,0 +1,17 @@
+---
+
+- name: restart node_exporter
+  systemd:
+    name: node_exporter.service
+    state: restarted
+    daemon_reload: true
+    enabled: yes
+  register: node_exporter_restart
+  notify: check node_exporter status
+
+- name: check node_exporter status
+  systemd:
+    name: node_exporter.service
+    state: started
+    enabled: yes
+  when: node_exporter_restart.changed

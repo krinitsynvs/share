@@ -1,0 +1,31 @@
+---
+
+- name: create node_exporter group
+  group:
+    name: "{{ node_exporter_group }}"
+    state: present
+
+- name: create node_exporter user
+  user:
+    name: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    home: "{{ node_exporter_config_dir }}"
+    system: true
+    shell: /bin/false
+    state: present
+
+- name: create node_exporter working directories
+  file:
+    dest: "{{ item }}"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    state: directory
+  with_items:
+    - "{{ node_exporter_config_dir }}"
+    - "{{ node_exporter_data_dir }}"
+    - "{{ node_exporter_log_dir }}"
+
+- name: create node_exporter service
+  template:
+    src: node_exporter.service.j2
+    dest: "{{ node_exporter_service_dir }}/node_exporter.service"

@@ -1,0 +1,7 @@
+---
+
+- name: create node_exporter service
+  template:
+    src: node_exporter.service.j2
+    dest: "{{ node_exporter_service_dir }}/node_exporter.service"
+  notify: restart node_exporter

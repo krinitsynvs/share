@@ -1,0 +1,24 @@
+[Unit]
+Requires=network-online.target
+After=network-online.target
+
+
+[Service]
+User={{ node_exporter_user }}
+Group={{ node_exporter_group }}
+
+ExecStart={{ node_exporter_bin_dir }}/node_exporter --web.listen-address=0.0.0.0:{{ node_exporter_port }} --log.level={{ node_exporter_log_level }} --collector.systemd --collector.textfile.directory={{ node_exporter_data_dir }}
+ExecReload=/bin/kill -s HUP $MAINPID
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=5s
+
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+
+OOMScoreAdjust=-1000
+
+
+[Install]
+WantedBy=multi-user.target
